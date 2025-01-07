@@ -14,7 +14,7 @@ set(gca,'fontsize', 32);
 
 h = fill(X, inBetweeen, 'b', 'FaceAlpha',0.2, 'DisplayName', 'Confidence Interval (\delta - 0.01)', 'LineWidth', 1, 'EdgeColor','white', 'EdgeAlpha',0.2);
 yline(true_val, 'Color', 'red', 'LineStyle','-.', 'LineWidth', 2, 'DisplayName','True Entropy Value');
-plot(x, estimate, 'LineWidth', 2, 'DisplayName', 'Estimated Entropy', 'Color','b');
+plot(x, estimate, 'LineWidth', 2.5, 'DisplayName', 'Estimated Entropy', 'Color','b');
 xlh = xlabel("No. of Rounds", "VerticalAlignment","top");
 ylh = ylabel("Entanglement Entropy", "VerticalAlignment","bottom");
 xticks(0:20000:100000);
