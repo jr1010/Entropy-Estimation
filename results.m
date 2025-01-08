@@ -21,7 +21,7 @@ xlabel("No. of Rounds");
 ylabel("Entanglement Entropy");
 
 xticks(0:20000:100000);
-xticklabels({'0', '20000', '40000', '60000', '100000'})
+xticklabels({'0', '20000', '40000', '60000', '80000', '100000'})
 
 yticks(0.0:0.2:1.0);
 ytickformat("%.1f");
