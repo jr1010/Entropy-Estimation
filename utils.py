@@ -71,3 +71,69 @@ def estimate_bounds_from_memory(memory, error_prob):
     lcb = probs - bound
 
     return ucb, lcb
+
+
+def generate_random_state(n):
+    random_states = np.random.uniform(0, 1, size=(n, 6)) + 1j*np.random.uniform(0, 1, size=(n, 6))
+    random_states = random_states/np.linalg.norm(random_states, axis=1).reshape(-1, 1)
+    return random_states
+
+
+def von_neumann_entropy(eigvals, dim=2):
+    res = 0
+    for eig in eigvals:
+        if eig == 0:
+            continue
+        res += eig*np.log2(1/eig)
+
+    return np.round(res, 3)
+
+
+def partial_traces(state, dimA, dimB, density_matrix=False):
+    if not density_matrix:
+        st = state.reshape(-1, 1)
+        density_m = st@np.conj(st.T)
+    else:
+        density_m = state.copy()
+    
+    density_A = np.zeros((dimA, dimA)).astype(np.complex128)
+    density_B = np.zeros((dimB, dimB)).astype(np.complex128)
+
+    for row in range(dimA):
+        for col in range(dimA):
+            density_A[row, col] = np.sum([density_m[dimB*row + i, dimB*col + i] for i in range(dimB)]) 
+
+    for row in range(dimB):
+        for col in range(dimB):
+            density_B[row, col] = np.sum([density_m[row + i*dimB, col + i*dimB] for i in range(dimA)])
+
+    return (density_A/np.linalg.trace(density_A), density_B/np.linalg.trace(density_B)) 
+
+def tensor_prodcut(state):
+    n = len(state)
+    res = np.zeros(n*n).astype(np.complex128)
+
+    for idx, el in enumerate(state):
+        res[n*idx: n*(idx+1)] = el*state
+
+    return res
+    
+
+def tensor(rhoA, rhoB):
+    n = rhoA.shape[0]
+    m = rhoB.shape[0]
+
+    res = np.zeros((n*m, n*m)).astype(np.complex128)
+
+    for i in range(n):
+        for j in range(n):
+            res[i*m:(i+1)*m, j*m:(j+1)*m] = rhoA[i, j]*rhoB
+
+    return res
+
+
+def von_neumann_entropy_from_state(state, dimA, dimB):
+    pa, pb = partial_traces(state, dimA, dimB)
+    eigs = np.linalg.eigvalsh(pa)
+    return von_neumann_entropy(eigs, dim=2)
+    
