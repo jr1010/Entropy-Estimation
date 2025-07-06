@@ -4,6 +4,8 @@
 
 This repository provides tools and resources for estimating the distillable entanglement in bipartite pure quantum states. Distillable entanglement quantifies the amount of pure entanglement that can be extracted from a quantum state using local operations and classical communication (LOCC).
 
+The codebase accompanies the paper *"Identifying Highly Distillable Entanglement in Pure States using Multi-Armed Bandits"*, accepted at **ISIT 2025**, and includes the implementations of the LOCC-based protocols and multi-armed bandit framework proposed in the work.
+
 ## Contents
 
 - **Bandits.ipynb**: A Jupyter Notebook exploring the application of multi-armed bandit algorithms in the context of entanglement estimation.
